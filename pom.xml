@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.admin</groupId>
+	<artifactId>admin-template</artifactId>
+	<version>1.0.0</version>
+
+	<modules>
+		<module>admin-commons</module>
+		<module>module-service</module>
+		<module>module-system</module>
+		<module>admin-web</module>
+	</modules>
+
+	<packaging>pom</packaging>
+
+	<name>admin-template</name>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<druid.version>1.1.10</druid.version>
+		<dynamic.datasource.version>2.2.0</dynamic.datasource.version>
+		<mybatis.plus.version>3.0-RC1</mybatis.plus.version>
+        <veloctiy.version>1.7</veloctiy.version>
+		<fastjson.version>1.2.49</fastjson.version>
+		<shiro.spring.version>1.4.0</shiro.spring.version>
+		<jwt.version>0.7.0</jwt.version>
+		<protostuff.version>1.6.0</protostuff.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${veloctiy.version}</version>
+            </dependency>
+
+			<dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<version>${dynamic.datasource.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis.plus.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.spring.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>${jwt.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/io.protostuff/protostuff-runtime -->
+			<dependency>
+				<groupId>io.protostuff</groupId>
+				<artifactId>protostuff-runtime</artifactId>
+				<version>${protostuff.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/io.protostuff/protostuff-core -->
+			<dependency>
+				<groupId>io.protostuff</groupId>
+				<artifactId>protostuff-core</artifactId>
+				<version>${protostuff.version}</version>
+			</dependency>
+
+
+		</dependencies>
+	</dependencyManagement>
+
+
+
+</project>

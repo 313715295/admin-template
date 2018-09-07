@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
+    <property resource="application.yml"/>
+    <!--日志名字用应用程序名字，日志地址前缀在启动程序中设置属性-->
+    <property name="logName" value="${spring.application.name}"/>
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <!-- 彩色控制台日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{HH:mm:ss.SSS}){faint} | %clr(${LOG_LEVEL_PATTERN:-%5p}) | %clr(${PID:- }){magenta} | %clr([%15.15t]){faint} | %clr(%-40.40logger{39}){cyan} %clr(:){faint} |-->>  %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <!--没有用渲染类的日志格式-->
+    <!--<property name="CONSOLE_LOG_PATTERN"-->
+              <!--value="%d{HH:mm:ss.SSS} | %highlight(%-5level) | %boldMagenta(${PID:- }) | [%15.15t] | %cyan(%-40.40logger{39}) |&ndash;&gt;> %m%n"/>-->
+    <!--文件输出格式-->
+    <property name="FILE_LOG_PATTERN"
+              value="%d{HH:mm:ss.SSS} | %-5level ${PID:- } | [%15.15t] %-40.40logger{39} |-->>%m%n"/>
+
+    <!--日志保存地址 采用环境变量配置的时候需要注意必须为/,如果写成\ 不会识别为路径，而是当成文件名-->
+    <property name="DEBUG_LOG_PATH" value="${log.path}%d{yyyy-MM}/%d{dd}/${logName}-debug-%d{yyyy-MM-dd}.log"/>
+    <property name="INFO_LOG_PATH" value="${log.path}%d{yyyy-MM}/%d{dd}/${logName}-info-%d{yyyy-MM-dd}.log"/>
+    <property name="WARN_LOG_PATH" value="${log.path}%d{yyyy-MM}/%d{dd}/${logName}-warn-%d{yyyy-MM-dd}.log"/>
+    <property name="ERROR_LOG_PATH" value="${log.path}%d{yyyy-MM}/%d{dd}/${logName}-error-%d{yyyy-MM-dd}.log"/>
+
+    <!--在这里配置或者在配置文件里配置 logging.level.com.zwq.logback=debug-->
+    <logger name="com.zwq.logback" level="debug"/>
+    <!--可以拓展appender，比如说错误日志发送邮件等等-->
+
+    <!--控制台输出-->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+        <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+    </appender>
+
+    <!--测试开发只输出控制台-->
+    <springProfile name="test">
+        <root level="info">
+            <appender-ref ref="consoleLog"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="home">
+        <root level="info">
+            <appender-ref ref="consoleLog"/>
+        </root>
+    </springProfile>
+
+    <!--生产只输出到文件-->
+    <springProfile name="prod">
+        <!--debug滚动文件输出-->
+        <appender name="fileDebugLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!--级别过滤器  接收（onMatch）debug，其他接收-->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>DEBUG</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <encoder>
+                <pattern>
+                    ${FILE_LOG_PATTERN}
+                </pattern>
+            </encoder>
+            <!--滚动策略-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--日志文件滚动路径，压缩zip-->
+                <fileNamePattern>
+                    ${DEBUG_LOG_PATH}
+                </fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+        <!--info滚动文件输出-->
+        <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+            <!--级别过滤器  接收（onMatch）INFO，其他接收-->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+
+            <encoder>
+                <pattern>
+                    ${FILE_LOG_PATTERN}
+                </pattern>
+            </encoder>
+            <!--滚动策略-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--日志文件滚动路径，压缩zip-->
+                <fileNamePattern>
+                    ${INFO_LOG_PATH}
+                </fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+        <!--warn滚动文件输出-->
+        <appender name="fileWarnLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!--级别过滤器  接收onmatch（WARN），其他过滤，和临界值过滤器二选一即可-->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>WARN</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <encoder>
+                <pattern>
+                    ${FILE_LOG_PATTERN}
+                </pattern>
+            </encoder>
+            <!--滚动策略-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--日志文件滚动路径，压缩zip-->
+                <fileNamePattern>
+                    ${WARN_LOG_PATH}
+                </fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+        <!--error滚动文件输出-->
+        <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!--级别过滤器  接收ERROR，其他过滤，和临界值过滤器二选一即可-->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>ERROR</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <!--临界值过滤器 过滤掉所有低于ERROR级别的日志-->
+            <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+            <!--<level>ERROR</level>-->
+            <!--</filter>-->
+            <encoder>
+                <pattern>
+                    ${FILE_LOG_PATTERN}
+                </pattern>
+            </encoder>
+            <!--滚动策略-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--日志文件滚动路径，压缩zip-->
+                <fileNamePattern>
+                    ${ERROR_LOG_PATH}
+                </fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+        <root level="info">
+            <appender-ref ref="fileInfoLog"/>
+            <appender-ref ref="fileDebugLog"/>
+            <appender-ref ref="fileWarnLog"/>
+            <appender-ref ref="fileErrorLog"/>
+        </root>
+    </springProfile>
+
+</configuration>
