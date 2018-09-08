@@ -4,7 +4,7 @@ import com.admin.commons.base.Result;
 import com.admin.commons.enums.ResponseEnum;
 import com.admin.commons.utils.Iptools;
 import com.admin.module.shiro.JwtTokenUtil;
-import com.admin.web.shiro.JWTToken;
+import com.admin.module.shiro.JWTToken;
 import com.admin.web.utils.OptionsCheckUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;

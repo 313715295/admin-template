@@ -1,4 +1,4 @@
-package com.admin.web.shiro;
+package com.admin.module.shiro;
 
 import io.jsonwebtoken.Claims;
 import org.apache.shiro.authc.AuthenticationToken;

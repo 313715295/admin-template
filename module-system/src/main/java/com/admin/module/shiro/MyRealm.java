@@ -1,8 +1,7 @@
-package com.admin.web.shiro;
+package com.admin.module.shiro;
 
 import com.admin.module.entity.User;
 import com.admin.module.service.UserService;
-import com.admin.module.shiro.TokenInfo;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;

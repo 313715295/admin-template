@@ -4,6 +4,18 @@ server:
 performance:
   enable: true
 spring:
+  redis:
+    database: 15
+    host: 127.0.0.1
+    port: 6379
+    password: 910810     # 密码（默认为空）
+    jedis:
+      pool:
+        max-idle: 10 # 连接池中的最大空闲连接
+        min-idle: 5  # 连接池中的最小空闲连接
+        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-active: 1000 # 连接池最大连接数（使用负值表示没有限制）
+#    timeout: 60s  # 连接超时时长（1秒）使用连接池可以不配置
   datasource:
     dynamic:
       datasource:
