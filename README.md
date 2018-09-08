@@ -4,7 +4,7 @@ PS：mybatisplus多数据源是参考的官方demo，shiro+jwt和springcache+red
 
 采用的是maven多模块方式。
 
-commons模块放置共用的类和依赖；
+commons模块放置公用的类和依赖；
 
 modules-system放置管理系统本身所需要的从entity到controller及相关uitl等等；
 
